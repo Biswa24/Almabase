@@ -1,5 +1,5 @@
 
-
-TOKEN = '34e0b027e4418198da81b3520ccb26f0f868150c'
+# Add Your API Token
+TOKEN = ''
 
 PER_PAGE = 5
