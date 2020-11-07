@@ -1,0 +1,87 @@
+body, html {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: rgb(222, 219, 209); 
+}
+
+.content {
+    margin: 0 auto;
+    width: auto;
+    text-align: center;
+
+}
+
+.content1{
+  margin:10% auto 0 auto;
+  width: 60%;
+  text-align: center;
+}
+.form-group{
+    margin-bottom : 15px;
+}
+
+
+.submit-btn{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type=text], #number-field {
+  /*width: 10%;*/
+  padding: 10px 10px;
+  margin: 4px 8px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th, td {
+  padding: 15px 0px 15px 0px;
+}
+
+table {
+  border-spacing: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+  margin-bottom: 0.5rem;
+  box-shadow: 0px 5px 20px rgb(71, 71, 71);
+}
+
+
+.top{
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+
+}
+
+.button{
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+.error{
+  margin-top: 8%;
+  text-align: center;
+}
+
+.form{
+  padding: 1.5rem;
+  border: solid 5px #000000;
+  
+}
