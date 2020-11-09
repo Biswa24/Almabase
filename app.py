@@ -4,6 +4,7 @@ from flask_paginate import Pagination, get_page_args
 from config import TOKEN,PER_PAGE
 from main import get_data
 from logger import setup_logger
+import os
 
 
 Token = os.environ.get('TOKEN')
