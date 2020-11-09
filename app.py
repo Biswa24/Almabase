@@ -14,7 +14,7 @@ if Token == '':
 app = Flask(__name__)
 app.secret_key = TOKEN
 
-accesslogger = setup_logger('app','Logs/accesslog.log')
+accesslogger = setup_logger('app','accesslog.log')
 
 def process_data():
 	page = int(request.args.get('page', 1))
