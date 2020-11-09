@@ -4,7 +4,7 @@ from models import Repository, Contributor
 from logger import setup_logger
 from config import TOKEN
 
-errorlogger = setup_logger('Main','Logs/errorlog.log')
+errorlogger = setup_logger('Main','../errorlog.log')
 
 Token = os.environ.get('TOKEN')
 if Token == '':
