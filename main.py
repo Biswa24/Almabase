@@ -14,7 +14,7 @@ if Token == '':
 headers = {
     "Authorization": "Token " + Token
 }
-print(headers)
+# print(headers)
 
 def get_repository_committee(organisation_name, repo_name, committees):
 	url = f'https://api.github.com/repos/{organisation_name}/{repo_name}/stats/contributors'

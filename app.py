@@ -62,7 +62,10 @@ def home():
 			per_page=per_page,
 			pagination=pagination
 			)
-	session.clear()
+	try:
+		session.clear()
+	except:
+		pass
 	try:
 		header = dict(request.headers)
 	except:
@@ -71,7 +74,8 @@ def home():
 	accesslogger.info(f"client - {header.get('X-Forwarded-For','') }")
 	accesslogger.info(f"user agent - {header.get('User-Agent','') }")
 	
-	data =None
+	data = None
+	print(f'data - {data}')
 	return render_template(
 		'index.html',
 		data=data,
@@ -103,5 +107,4 @@ def server_error(e):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run()
+    app.run()
