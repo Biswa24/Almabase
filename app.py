@@ -13,7 +13,7 @@ if Token == '':
 
 	
 app = Flask(__name__)
-app.secret_key = TOKEN
+app.secret_key = Token
 
 accesslogger = setup_logger('app','accesslog.log')
 
