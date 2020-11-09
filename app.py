@@ -1,110 +1,117 @@
-from flask import Flask, request,session, render_template,redirect, current_app as app
+from flask import Flask, request, session, render_template, redirect, current_app as app
 from flask_paginate import Pagination, get_page_args
 
-from config import TOKEN,PER_PAGE
+from config import TOKEN, PER_PAGE
 from main import get_data
 from logger import setup_logger
 import os
 
 
-Token = os.environ.get('TOKEN')
-if Token == '':
-	Token = TOKEN
+Token = os.environ.get("TOKEN")
+if Token == "":
+    Token = TOKEN
 
-	
+
 app = Flask(__name__)
 app.secret_key = Token
 
-accesslogger = setup_logger('app','accesslog.log')
+accesslogger = setup_logger("app", "accesslog.log")
+
 
 def process_data():
-	page = int(request.args.get('page', 1))
-	per_page = PER_PAGE
-	offset = (page - 1) * per_page
-	data = get_data(org_name=session['org_name'],repo_count=session['repo_count'],committees=session['committees'],per_page=per_page,offset=offset)
-	total = data['count']
-	pagination = Pagination(page=page, per_page=per_page, total=total,css_framework='bootstrap4',error_out=False)
+    page = int(request.args.get("page", 1))
+    per_page = PER_PAGE
+    offset = (page - 1) * per_page
+    data = get_data(
+        org_name=session["org_name"],
+        repo_count=session["repo_count"],
+        committees=session["committees"],
+        per_page=per_page,
+        offset=offset,
+    )
+    total = data["count"]
+    pagination = Pagination(
+        page=page,
+        per_page=per_page,
+        total=total,
+        css_framework="bootstrap4",
+        error_out=False,
+    )
 
-	return (data,page,per_page,pagination) 
+    return (data, page, per_page, pagination)
 
-@app.route('/',methods=['POST', 'GET'])
+
+@app.route("/", methods=["POST", "GET"])
 def home():
-	if 'flag' in session and session['flag'] == True and 'page' in request.args:
+    if "flag" in session and session["flag"] == True and "page" in request.args:
 
-		data,page,per_page,pagination = process_data()
-		max_page = pagination.pages[-1] 
-		if page > max_page :
-			return redirect(f'/?page={max_page}')
+        data, page, per_page, pagination = process_data()
+        max_page = pagination.pages[-1]
+        if page > max_page:
+            return redirect(f"/?page={max_page}")
 
-		return render_template(
-	    	'index.html',
-	    	data=data,
-	    	page=page,
-	    	per_page=per_page,
-	    	pagination=pagination
-			)
+        return render_template(
+            "index.html", data=data, page=page, per_page=per_page, pagination=pagination
+        )
 
-	if request.method == 'POST':
-		
-		session['flag'] = True
-		session['org_name'] = request.form.get('org_name', type=str)
-		session['repo_count'] = request.form.get('repo_count', default = 5, type=int)
-		session['committees'] = request.form.get('contri_count', default = 3, type=int)
+    if request.method == "POST":
 
-		data,page,per_page,pagination = process_data()
+        session["flag"] = True
+        session["org_name"] = request.form.get("org_name", type=str)
+        session["repo_count"] = request.form.get("repo_count", default=5, type=int)
+        session["committees"] = request.form.get("contri_count", default=3, type=int)
 
-		accesslogger.info(f"org_name - {session['org_name']} \t repo_count - {session['repo_count']} \t committees - {session['committees']}")
+        data, page, per_page, pagination = process_data()
 
-		return render_template(
-			'index.html',
-			data=data,
-			page=page,
-			per_page=per_page,
-			pagination=pagination
-			)
-	try:
-		session.clear()
-	except:
-		pass
-	try:
-		header = dict(request.headers)
-	except:
-		header = {}
+        accesslogger.info(
+            f"org_name - {session['org_name']} \t repo_count - {session['repo_count']} \t committees - {session['committees']}"
+        )
 
-	accesslogger.info(f"client - {header.get('X-Forwarded-For','') }")
-	accesslogger.info(f"user agent - {header.get('User-Agent','') }")
-	
-	data = None
-	print(f'data - {data}')
-	return render_template(
-		'index.html',
-		data=data,
-		)
+        return render_template(
+            "index.html", data=data, page=page, per_page=per_page, pagination=pagination
+        )
+    try:
+        session.clear()
+    except:
+        pass
+    try:
+        header = dict(request.headers)
+    except:
+        header = {}
+
+    accesslogger.info(f"client - {header.get('X-Forwarded-For','') }")
+    accesslogger.info(f"user agent - {header.get('User-Agent','') }")
+
+    data = None
+    # print(f"data - {data}")
+    return render_template(
+        "index.html",
+        data=data,
+    )
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-	header = dict(request.headers)
+    header = dict(request.headers)
 
-	accesslogger.info(f"client - {header.get('X-Forwarded-For','')} ")
-	accesslogger.info(f"user agent - {header.get('User-Agent','') }")
-	accesslogger.warning(f"user accessed - {request.url}")
+    accesslogger.info(f"client - {header.get('X-Forwarded-For','')} ")
+    accesslogger.info(f"user agent - {header.get('User-Agent','') }")
+    accesslogger.warning(f"user accessed - {request.url}")
 
-	return render_template('error/404.html')
+    return render_template("error/404.html")
 
 
 @app.errorhandler(500)
 def server_error(e):
 
-	header = dict(request.headers)
-	
-	accesslogger.info(f"client - {header.get('X-Forwarded-For','')} ")
-	accesslogger.info(f"user agent - {header.get('User-Agent','') }")
-	accesslogger.warning(f"user accessed - {request.url}")
+    header = dict(request.headers)
 
-	return render_template('error/500.html')
+    accesslogger.info(f"client - {header.get('X-Forwarded-For','')} ")
+    accesslogger.info(f"user agent - {header.get('User-Agent','') }")
+    accesslogger.warning(f"user accessed - {request.url}")
+
+    return render_template("error/500.html")
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()

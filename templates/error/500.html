@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block head %}
-  <title> Server Error </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="shortcut icon" type="image/png"  href=" {{ url_for('static', filename='img/favicon.png') }}"/>
+<title> Server Error </title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<link rel="shortcut icon" type="image/png"  href=" {{ url_for('static', filename='img/favicon.png') }}"/>
 
 {% endblock %} 
 
 {% block body %}
 
-	<div class="error">
-		<h4>Something Went Wrong, Please Try again a few moments later</h4>
-		
-	</div>
+<div class="error">
+	<h4>Something Went Wrong, Please Try again a few moments later</h4>
+	
+</div>
 {% endblock %} 
