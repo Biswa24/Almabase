@@ -5,6 +5,12 @@ from config import TOKEN,PER_PAGE
 from main import get_data
 from logger import setup_logger
 
+
+Token = os.environ.get('TOKEN')
+if Token == '':
+	Token = TOKEN
+
+	
 app = Flask(__name__)
 app.secret_key = TOKEN
 

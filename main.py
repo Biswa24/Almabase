@@ -1,4 +1,4 @@
-import requests
+import requests,os
 
 from models import Repository, Contributor
 from logger import setup_logger
@@ -6,9 +6,15 @@ from config import TOKEN
 
 errorlogger = setup_logger('Main','Logs/errorlog.log')
 
+Token = os.environ.get('TOKEN')
+if Token == '':
+	Token = TOKEN
+
+	
 headers = {
-    "Authorization": "Token " + TOKEN
+    "Authorization": "Token " + Token
 }
+print(headers)
 
 def get_repository_committee(organisation_name, repo_name, committees):
 	url = f'https://api.github.com/repos/{organisation_name}/{repo_name}/stats/contributors'
